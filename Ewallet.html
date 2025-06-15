@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ewallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+      
+      @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+      body {
+  font-family: "Lexend Deca", sans-serif;
+}
+      .loader {
+  border-top-color: #2097F3;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+  </style>
+</head>
+<body class="bg-[aliceblue] min-h-screen pb-4">
+
+  <!-- Header Biru -->
+  <div id="header" class="hidden w-full h-[80px] bg-[#2097F3] fixed top-0 left-0 right-0 z-20"></div>
+
+  <!-- Card Input -->
+  <!-- Card Input Fixed Top -->
+<div id="inputContainer" class="hidden fixed top-0 left-0 right-0 z-20 p-4 bg-transparent">
+  <div class="bg-white rounded-[10px] shadow-lg px-5 py-5 max-w-md mx-auto">
+    <div class="mb-4">
+      <input id="nomorInput" type="tel" placeholder="Nomor Tujuan"
+        class="{{hasil_kontak}} w-full rounded-lg border border-2 border-gray-200 px-3 py-2 text-sm text-gray-500 focus:outline-none focus:border-[#2097F3]" />
+    </div>
+
+    <div class="grid grid-cols-3 text-xs bg-gray-100 rounded-lg overflow-hidden">
+      <button onclick="togglePopup(true)" class="flex items-center justify-center py-2 space-x-1 hover:bg-gray-200">
+        <i class="fa-solid fa-circle-info text-black text-sm"></i>
+        <span class="font-semibold">Info</span>
+      </button>
+      <button onclick="window.location.href='https://rajapulsazone.olshopku.com/ambil_kontak'" class="flex items-center justify-center py-2 space-x-1 border-x border-gray-300 hover:bg-gray-200">
+        <i class="fa-solid fa-address-book text-black text-sm"></i>
+        <span class="font-semibold">Kontak</span>
+      </button>
+      <button onclick="toggleFavoritePopup()" class="flex items-center justify-center py-2 space-x-1 hover:bg-gray-200">
+        <i class="fa-solid fa-heart text-black text-sm"></i>
+        <span class="font-semibold">Favorite</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Daftar Operator -->
+<div id="operatorContainer" class="relative z-10 px-4 pt-4 max-w-md mx-auto -mb-6">
+  <div class="space-y-3">
+    <div onclick="pilihOperator('Dana', 'https://icon.nerokode.com/uploads/1745078020_20250419_224333.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078020_20250419_224333.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Dana</span>
+    </div>
+
+    <div onclick="pilihOperator('OVO', 'https://icon.nerokode.com/uploads/1745078020_20250419_224236.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078020_20250419_224236.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">OVO</span>
+    </div>
+
+    <div onclick="pilihOperator('Gopay', 'https://icon.nerokode.com/uploads/1745078021_20250419_224200.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078021_20250419_224200.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Gopay</span>
+    </div>
+
+    <div onclick="pilihOperator('LinkAja', 'https://icon.nerokode.com/uploads/1745078021_20250419_224045.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078021_20250419_224045.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">LinkAja</span>
+    </div>
+
+    <div onclick="pilihOperator('ShopeePay', 'https://icon.nerokode.com/uploads/1745078025_20250419_223240.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078025_20250419_223240.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">ShopeePay</span>
+    </div>
+
+    <div onclick="pilihOperator('AstraPay', 'https://icon.nerokode.com/uploads/1745078021_20250419_223912.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078021_20250419_223912.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">AstraPay</span>
+    </div>
+    
+    <div onclick="pilihOperator('Isaku', 'https://icon.nerokode.com/uploads/1745078022_20250419_223829.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078022_20250419_223829.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Isaku</span>
+    </div>
+    <div onclick="pilihOperator('Kaspro', 'https://icon.nerokode.com/uploads/1745078022_20250419_223757.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078022_20250419_223757.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Kaspro</span>
+    </div>
+    <div onclick="pilihOperator('Doku', 'https://icon.nerokode.com/uploads/1745078023_20250419_223621.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078023_20250419_223621.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Doku</span>
+    </div>
+    <div onclick="pilihOperator('Grab', 'https://icon.nerokode.com/uploads/1745078021_20250419_223945.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078021_20250419_223945.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Grab</span>
+    </div>
+    <div onclick="pilihOperator('Maxim', 'https://icon.nerokode.com/uploads/1745078023_20250419_223733.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078023_20250419_223733.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Maxim</span>
+    </div>
+    <div onclick="pilihOperator('Gojek Driver', 'https://icon.nerokode.com/uploads/1745078022_20250419_223707.png')" class="flex items-center space-x-3 bg-white p-3 rounded-[10px] shadow-sm cursor-pointer">
+      <img src="https://icon.nerokode.com/uploads/1745078022_20250419_223707.png" class="w-9 h-9 operator-img" />
+      <span class="text-sm font-semibold">Gojek Driver</span>
+    </div>
+  </div>
+</div>
+
+  <!-- Produk + Kategori Kuota -->
+  <div id="produkContainer" class="hidden max-w-md mt-[160px] mx-4 p-4 bg-white rounded-[10px] shadow-md space-y-4 relative">
+    <!-- Tombol Kategori -->
+    <button id="btnKategori" onclick="toggleKategoriList()" class="w-full bg-[#2097F3] text-white px-3 py-2 rounded-lg flex justify-between items-center">
+  <span id="textKategori" class="text-sm font-semibold">Pilih Kategori</span>
+  <i class="fa-solid fa-chevron-down text-xs"></i>
+</button>
+
+    <div class="flex items-center space-x-2 mt-2">
+      <input id="cariProdukInput" type="text" placeholder="Cari Produk" class="flex-1 px-3 py-2 rounded-lg border border-2 text-sm border-gray-200 focus:outline-none focus:border-[#2097F3]" oninput="filterProduk()" />
+      
+      <button id="toggleGambarBtn" onclick="toggleGambar()" class="p-1 rounded hover:bg-gray-100" title="Tampilkan/Sembunyikan Gambar Produk">
+        <i id="iconGambar" class="fa-solid fa-image text-gray-700 text-2xl"></i>
+      </button>
+      
+      <button id="filterHargaBtn" onclick="toggleFilterHarga()" class="p-1 rounded hover:bg-gray-100" title="Filter Harga Termurah/Termahal">
+        <i class="fa-solid fa-filter text-gray-700 text-2xl"></i>
+      </button>
+
+      <button id="toggleViewBtn" onclick="toggleGridList()" class="p-1 rounded hover:bg-gray-100" title="Ubah Tampilan">
+        <span id="gridIcon"><i class="fa-solid fa-th text-gray-700 text-2xl"></i></span>
+        <span id="listIcon" class="hidden"><i class="fa-solid fa-bars text-gray-700 text-2xl px-1"></i></span>
+      </button>
+    </div>
+
+    <!-- List Kategori (disembunyikan awalnya) -->
+    <div id="kategoriList" class="hidden mt-4 space-y-2">
+      <button onclick="pilihKategori('Data')" class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm">Tidak Ada Kategori</button>
+    </div>
+
+    <div class="grid grid-cols-[1fr_auto] gap-3 items-center mt-4">
+      <button onclick="gantiOperator()" class="w-full bg-[#2097F3] text-white px-4 py-2 rounded-[10px] flex items-center justify-center space-x-2">
+        <i class="fa-solid fa-rotate text-md"></i>
+        <span class="text-sm font-semibold">Ganti Operator</span>
+      </button>
+      <img id="operatorLogo" src="" class="w-9 h-9 rounded-full" />
+    </div>
+
+  </div>                        
+
+  <!-- Popup Info -->
+  <div id="popupInfo" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-sm p-6">
+      <h2 class="text-red-600 text-lg font-bold mb-3">Penting untuk Dibaca!</h2>
+      <ul class="text-sm list-disc list-outside text-black space-y-1 mb-4 pl-5">
+        <li>Pastikan Nomor Tujuan benar sebelum transaksi</li>
+        <li>Transaksi yang berstatus Proses/Sukses tidak dapat dibatalkan</li>
+        <li>Kesalahan memasukan Nomor Tujuan merupakan tanggung jawab sendiri</li>
+      </ul>
+      <div class="flex justify-center">
+        <button onclick="togglePopup(false)" class="bg-gray-400 text-white px-5 py-2 rounded-full text-sm">Tutup</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Produk List -->
+  <div id="produkList" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 px-4">
+    <!-- Produk akan ditampilkan di sini -->
+  </div>
+
+  <div id="popupProduk" class="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-end md:items-center justify-center hidden p-4">
+    <div class="bg-white rounded-[10px] w-full md:max-w-md p-4 md: px-0 pt-0 pb-0">
+      <h2 class="text-white bg-[#2097F3] rounded-t-[10px] py-2 px-4 font-bold text-base">Detail Produk</h2>
+      <div class="bg-white p-4 text-sm rounded-[10px]">
+        <div class="flex justify-between py-2 border-b">
+          <span>Produk</span><span id="popupNamaProduk" class="font-medium"></span>
+        </div>
+        <div class="flex justify-between py-2 border-b">
+          <span>No HP</span><span id="popupNomor" class="font-medium"></span>
+        </div>
+        <div class="flex justify-between py-2 border-b">
+          <span>Harga</span><span id="popupHarga" class="font-medium text-[#2097F3]"></span>
+        </div>
+        <div class="mt-3 bg-blue-50 text-gray-700 text-xs p-3 rounded-lg leading-relaxed" id="popupDeskripsi">
+          <!-- Deskripsi masuk di sini -->
+        </div>
+        <div class="mt-4 mb-0 pb-0 flex justify-between items-center gap-2">
+          <button onclick="tutupPopupProduk()" class="bg-gray-300 w-1/6 py-2 rounded-lg text-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button onclick="handleBeli()" class="bg-[#2097F3] text-white font-semibold w-5/6 py-2 rounded-lg text-sm">BELI SEKARANG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+<div id="popupModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm text-center">
+    <h2 class="text-lg font-semibold mb-4">Nomor belum diisi</h2>
+    <p class="text-gray-600 mb-6">Silakan isi nomor terlebih dahulu sebelum membeli.</p>
+    <button onclick="closePopup()" class="bg-[#2097F3] text-white px-4 py-2 rounded hover:bg-blue-700 float-right">OK</button>
+  </div>
+</div>
+
+<!-- Popup Favorit -->
+<div id="favoritePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 px-4">
+  <div class="bg-white rounded-lg p-6 w-full max-w-md">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Nomor Favorite</h2>
+      <button onclick="toggleFavoritePopup()" class="text-gray-500 hover:text-gray-800">
+<i class="fa-solid fa-square-xmark text-3xl text-red-500"></i>
+</button>
+    </div>
+
+    <!-- Form Tambah Favorit -->
+    <form id="favoriteForm" class="space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+      <input type="text" id="favName" placeholder="Nama" class="w-full px-3 py-2 text-gray-500 focus:outline-none focus:border-[#2097F3] rounded-[8px] border border-2 border-gray-200" required />
+      <input type="tel" id="favNumber" placeholder="Nomor Telepon" class="{{hasil_kontak}} w-full px-3 py-2 text-gray-500 focus:outline-none focus:border-[#2097F3] rounded-[8px] border border-2 border-gray-200" required />
+      </div>
+      <div class="flex">
+          <button type="submit" class="bg-[#2097F3] text-white px-4 py-2 w-full rounded-[8px]">
+            Tambah
+          </button>
+          <a onclick="window.location.href='https://rajapulsazone.olshopku.com/ambil_kontak'" class="bg-[#2097F3] text-white px-3 py-2 ms-2 rounded-[8px] ">
+            <i class="fa-solid fa-address-book text-white text-lg"></i>
+          </a>
+      </div>
+    </form>
+    
+    <!-- Form Edit Favorit -->
+<form id="editFavoriteForm" class="space-y-2 hidden mt-4">
+  <div class="grid grid-cols-2 gap-2">
+    <input type="text" id="editFavName" placeholder="Nama" class="w-full px-3 py-2 text-gray-500 focus:outline-none focus:border-[#2097F3] rounded-[8px] border border-2 border-gray-200" required />
+    <input type="tel" id="editFavNumber" placeholder="Nomor Telepon" class="w-full px-3 py-2 text-gray-500 focus:outline-none focus:border-[#2097F3] rounded-[8px] border border-2 border-gray-200" required />
+  </div>
+  <div class="flex gap-2">
+    <button type="submit" class="bg-[#2097F3] text-white px-4 py-2 rounded-[8px] hover:bg-[#2097F3] w-full">Simpan</button>
+    <button type="button" onclick="batalEditFavorit()" class="bg-gray-300 px-4 py-2 rounded-[8px] hover:bg-gray-400 w-full">Batal</button>
+  </div>
+</form>
+    
+    <!-- Daftar Favorit -->
+    <ul id="favoriteList" class="space-y-2 max-h-48 overflow-y-auto mt-4">
+      <!-- Data favorit akan ditampilkan di sini -->
+    </ul>
+    
+  </div>
+</div>
+
+
+
+<script>
+  const token = "eyJhcHAiOiIxMDk5NTMiLCJhdXRoIjoiMjAyMjA4MDciLCJzaWduIjoid0xhb3pGU21SQWlGa0hldXF4djI1QT09In0="; // GANTI dengan token asli
+
+  let produkData = []; // menyimpan data produk asli dari fetch
+  let gambarVisible = true;
+  let hargaSortAsc = true; // true = termurah ke termahal, false sebaliknya
+  let isGridView = true;
+  let kategoriAktifId = null;
+
+async function ambilKategoriBerdasarkanNama(namaOperator) {
+  const kategoriList = document.getElementById('kategoriList');
+  kategoriList.innerHTML = ''; // Kosongkan isi awal
+
+  kategoriList.innerHTML = `<button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm animate-pulse">Memuat kategori...</button>`;
+
+  try {
+    const response = await fetch(`https://openapi.bukaolshop.net/v1/app/kategori?token=${token}`);
+    const result = await response.json();
+
+    if (result.status === "ok") {
+      let semuaSubkategori = [];
+
+      // Gabungkan semua subkategori dari seluruh kategori utama
+      result.data.forEach(kat => {
+        if (kat.sub_kategori && kat.sub_kategori.length > 0) {
+          semuaSubkategori = semuaSubkategori.concat(kat.sub_kategori);
+        }
+      });
+
+      // Filter subkategori yang cocok dengan nama operator
+      const subkategoriCocok = semuaSubkategori.filter(sub => 
+        sub.nama_kategori.toLowerCase().includes(namaOperator.toLowerCase())
+      );
+
+      if (subkategoriCocok.length > 0) {
+        kategoriList.innerHTML = ''; // Kosongkan loading
+
+        subkategoriCocok.forEach(subKat => {
+          const btn = document.createElement('button');
+          btn.textContent = subKat.nama_kategori;
+          btn.className = 'w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm';
+          btn.onclick = () => pilihKategori(subKat.id_kategori, subKat.nama_kategori);
+          kategoriList.appendChild(btn);
+        });
+
+        return {
+          id: subkategoriCocok[0].id_kategori,
+          nama: subkategoriCocok[0].nama_kategori
+        };
+      } else {
+        kategoriList.innerHTML = `<button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm">Tidak Ada Subkategori Cocok</button>`;
+      }
+    } else {
+      kategoriList.innerHTML = `<button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm">Gagal mengambil data kategori</button>`;
+    }
+  } catch (error) {
+    console.error('Gagal ambil kategori:', error);
+    kategoriList.innerHTML = `<button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm">Gagal memuat kategori</button>`;
+  }
+
+  return null;
+}
+
+async function pilihOperator(namaOperator, urlLogo) {
+  document.getElementById('operatorLogo').src = urlLogo;
+
+  document.getElementById('operatorContainer').classList.add('hidden');
+  document.getElementById('produkContainer').classList.remove('hidden');
+  document.getElementById('inputContainer').classList.remove('hidden');
+  document.getElementById('header').classList.remove('hidden');
+
+  // Tampilkan kategori card dengan loading dulu
+  const kategoriList = document.getElementById('kategoriList');
+  kategoriList.innerHTML = `<button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm animate-pulse">Memuat kategori...</button>`;
+
+  // Clear produk dulu
+  produkData = [];
+  document.getElementById('produkList').innerHTML = '';
+
+  // Ambil kategori, tapi jangan tunggu dulu
+  const kategoriPertama = await ambilKategoriBerdasarkanNama(namaOperator);
+
+  // Jika ada kategori pertama, pilih kategori dan muat produk
+  if (kategoriPertama) {
+    pilihKategori(kategoriPertama.id, kategoriPertama.nama);
+  } else {
+    // Jika tidak ada kategori, hapus loading dan beri pesan
+    kategoriList.innerHTML = `<button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm">Tidak Ada Kategori</button>`;
+  }
+}
+
+async function pilihOperator(namaOperator, urlLogo) {
+  document.getElementById('operatorLogo').src = urlLogo;
+  
+  window.location.href = "#";
+
+  document.getElementById('operatorContainer').classList.add('hidden');
+  document.getElementById('produkContainer').classList.remove('hidden');
+  document.getElementById('inputContainer').classList.remove('hidden');
+  document.getElementById('header').classList.remove('hidden');
+
+  const kategoriList = document.getElementById('kategoriList');
+  const textKategori = document.getElementById('textKategori');
+  const produkList = document.getElementById('produkList');
+
+  // Tampilkan teks loading di tombol biru dan kategori list
+  textKategori.textContent = 'Memuat kategori...';
+  kategoriList.classList.remove('hidden');
+  kategoriList.innerHTML = `
+    <button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm animate-pulse">Memuat kategori...</button>
+  `;
+
+  // Tampilkan loading produk
+  produkList.className = 'mt-6 flex flex-col items-center justify-center px-4 py-8';
+  produkList.innerHTML = `
+    <div class="flex flex-col items-center py-8">
+      <div class="loader ease-linear rounded-full border-4 border-t-4 border-blue-500 h-10 w-10 mb-4 animate-spin"></div>
+      <p class="text-gray-500">Memuat data produk...</p>
+    </div>
+  `;
+
+  // Ambil kategori
+  const kategoriPertama = await ambilKategoriBerdasarkanNama(namaOperator);
+
+  if (kategoriPertama) {
+    pilihKategori(kategoriPertama.id, kategoriPertama.nama);
+  } else {
+    kategoriList.innerHTML = `
+      <button class="w-full text-left bg-gray-100 px-3 py-2 rounded-md text-sm">Tidak Ada Kategori</button>
+    `;
+    produkList.innerHTML = `
+    <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Produk tidak ditemukan" class="w-20 h-20 mb-4 opacity-50" /
+    <p class="text-gray-500 text-center">Produk tidak tersedia</p>`;
+  }
+}
+
+async function pilihKategori(idKategori, namaKategori = null) {
+  const produkList = document.getElementById('produkList');
+  const kategoriList = document.getElementById('kategoriList');
+
+  produkList.className = 'mt-6 flex flex-col items-center justify-center px-4 py-8';
+  produkList.innerHTML = `
+    <div class="flex flex-col items-center py-8">
+      <div class="loader ease-linear rounded-full border-4 border-t-4 border-blue-500 h-10 w-10 mb-4 animate-spin"></div>
+      <p class="text-gray-500">Memuat data produk...</p>
+    </div>
+  `;
+
+  try {
+    let allProduk = [];
+    let page = 1;
+    let hasMore = true;
+
+    while (hasMore) {
+      const response = await fetch(`https://openapi.bukaolshop.net/v1/app/produk?token=${token}&id_kategori=${idKategori}&page=${page}`);
+      const result = await response.json();
+
+      if (result.status === "ok" && result.data.length > 0) {
+        allProduk = allProduk.concat(result.data);
+        page++; // lanjut ke page berikutnya
+      } else {
+        hasMore = false;
+      }
+    }
+
+    setTimeout(() => {
+      if (allProduk.length > 0) {
+        produkData = allProduk;
+        produkData.sort((a, b) => a.harga_produk - b.harga_produk); // urutkan
+        renderProduk(produkData);
+        kategoriList.classList.add('hidden');
+      } else {
+        produkData = [];
+        produkList.className = 'mt-6 flex flex-col items-center justify-center px-4 py-8';
+        produkList.innerHTML = `
+          <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Produk tidak ditemukan" class="w-20 h-20 mb-4 opacity-50" />
+          <p class="text-center text-gray-500 text-lg">Produk tidak tersedia.</p>
+        `;
+      }
+
+      if (namaKategori) {
+        document.getElementById('textKategori').textContent = namaKategori;
+      }
+
+      const kategoriBtns = document.querySelectorAll('#kategoriList button');
+      kategoriBtns.forEach(btn => {
+        btn.classList.remove('bg-blue-100', 'text-blue-700', 'font-semibold');
+      });
+
+      const btnAktif = [...kategoriBtns].find(btn => btn.textContent === namaKategori);
+      if (btnAktif) {
+        btnAktif.classList.add('bg-blue-100', 'text-blue-700', 'font-semibold');
+      }
+
+      kategoriAktifId = idKategori;
+    }, 0);
+
+  } catch (error) {
+    console.error('Gagal ambil produk:', error);
+    produkList.className = 'mt-6 flex flex-col items-center justify-center px-4 py-8';
+    produkList.innerHTML = `<p class="text-center text-red-500">Gagal memuat produk.</p>`;
+  }
+}
+
+  function renderProduk(produkArray) {
+  const produkList = document.getElementById('produkList');
+  produkList.innerHTML = '';
+
+  if (!produkArray.length) {
+    produkList.innerHTML = '<p class="text-center text-gray-500">Produk tidak ditemukan.</p>';
+    return;
+  }
+
+  if (isGridView) {
+    produkList.className = 'mt-6 grid grid-cols-2 gap-4 px-4';
+  } else {
+    produkList.className = 'mt-6 flex flex-col gap-3 px-4';
+  }
+
+  produkArray.forEach(produk => {
+    const div = document.createElement('div');
+
+    // Card utama: relative supaya poin absolute bisa pasang di sini
+    div.className = 'relative bg-white rounded-xl shadow p-3 cursor-pointer flex items-center space-x-3';
+
+    div.onclick = () => tampilkanPopupProduk(produk);
+
+    const img = document.createElement('img');
+    img.src = produk.url_gambar_produk;
+    img.alt = produk.nama_produk;
+    img.className = 'rounded-md object-contain w-10 h-10';
+    img.style.display = gambarVisible ? 'block' : 'none';
+
+    const textDiv = document.createElement('div');
+    textDiv.className = 'flex-1';
+
+    const nama = document.createElement('p');
+    nama.className = 'text-sm font-semibold text-gray-800 line-clamp-3';
+    nama.textContent = produk.nama_produk;
+
+    const harga = document.createElement('p');
+    harga.className = 'text-sm text-[#2097F3]';
+    harga.textContent = `Rp${Number(produk.harga_produk).toLocaleString('id-ID')}`;
+
+    textDiv.appendChild(nama);
+    textDiv.appendChild(harga);
+
+    // Hitung poin (1 poin setiap Rp3.500)
+    const poin = Math.floor(produk.harga_produk / 3500);
+
+    // Buat elemen poin, langsung append ke card utama (div)
+    const poinDiv = document.createElement('div');
+    poinDiv.className = 'absolute bottom-0 right-0 bg-yellow-400 text-xs font-semibold px-2 py-0.5 rounded-tl-xl rounded-br-xl shadow text-gray-800 select-none';
+    poinDiv.textContent = `${poin} Poin`;
+
+    // Tambahkan elemen dalam urutan: gambar, teks, poin
+    div.appendChild(img);
+    div.appendChild(textDiv);
+    div.appendChild(poinDiv);
+
+    produkList.appendChild(div);
+  });
+}
+
+
+  function togglePopup(status) {
+    document.getElementById('popupInfo').classList.toggle('hidden', !status);
+  }
+
+  function toggleKategoriList() {
+    const kategoriList = document.getElementById('kategoriList');
+    kategoriList.classList.toggle('hidden');
+  }
+
+  function gantiOperator() {
+    // Clear dan tampilkan kembali operator container
+    document.getElementById('operatorContainer').classList.remove('hidden');    
+    document.getElementById('produkContainer').classList.add('hidden');
+    document.getElementById('inputContainer').classList.add('hidden');
+  document.getElementById('header').classList.add('hidden');
+    produkData = [];
+    document.getElementById('produkList').innerHTML = '';
+  }
+
+  // Popup Produk
+function tampilkanPopupProduk(produk) {
+  document.getElementById('popupNamaProduk').textContent = produk.nama_produk;
+  document.getElementById('popupNomor').textContent = document.getElementById('nomorInput').value || '-';
+  document.getElementById('popupHarga').textContent = `Rp${Number(produk.harga_produk).toLocaleString('id-ID')}`;
+  document.getElementById('popupDeskripsi').textContent = produk.deskripsi_panjang || '-';
+
+  // Simpan ID produk ke elemen popup untuk digunakan saat beli
+  document.getElementById('popupProduk').dataset.produkId = produk.id_produk;
+
+  document.getElementById('popupProduk').classList.remove('hidden');
+}
+
+  function tutupPopupProduk() {
+    document.getElementById('popupProduk').classList.add('hidden');
+  }
+
+  // Toggle gambar produk
+  function toggleGambar() {
+    gambarVisible = !gambarVisible;
+    const produkList = document.getElementById('produkList');
+    produkList.querySelectorAll('img').forEach(img => {
+      img.style.display = gambarVisible ? 'block' : 'none';
+    });
+  }
+
+  // Toggle filter harga
+  function toggleFilterHarga() {
+    if (produkData.length === 0) return;
+
+    hargaSortAsc = !hargaSortAsc;
+    produkData.sort((a, b) => hargaSortAsc ? a.harga_produk - b.harga_produk : b.harga_produk - a.harga_produk);
+    renderProduk(produkData);
+  }
+
+  // Toggle grid/list view produk
+  function toggleGridList() {
+    isGridView = !isGridView;
+    document.getElementById('gridIcon').classList.toggle('hidden');
+    document.getElementById('listIcon').classList.toggle('hidden');
+    renderProduk(produkData);
+  }
+
+  // Filter produk by search input (nama produk)
+  function filterProduk() {
+    const keyword = document.getElementById('cariProdukInput').value.toLowerCase();
+    const filtered = produkData.filter(p => p.nama_produk.toLowerCase().includes(keyword));
+    renderProduk(filtered);
+  }
+  
+  function showPopup() {
+    document.getElementById('popupModal').classList.remove('hidden');
+  }
+
+  function closePopup() {
+    document.getElementById('popupModal').classList.add('hidden');
+  }
+
+function handleBeli() {
+  const input = document.getElementById('nomorInput');
+  const nomor = input?.value.trim(); // ambil nomor dari input
+  const produkId = document.getElementById('popupProduk')?.dataset.produkId; // ambil ID produk dari popup
+
+  if (!nomor) {
+    showPopup();
+    return;
+  }
+
+  if (!produkId) {
+    alert("Produk belum dipilih.");
+    return;
+  }
+
+  // Lanjutkan proses beli
+  const redirectUrl = `https://rajapulsazone.olshopku.com/produk/${produkId}?catatan=${encodeURIComponent(nomor)}`;
+  window.location.href = redirectUrl;
+}
+
+  // Deteksi input nomor dan ubah awalan +62 atau 62 menjadi 0
+  function normalizeNomor(nomor) {
+    nomor = nomor.trim();
+    if (nomor.startsWith('+62')) return '0' + nomor.slice(3);
+    if (nomor.startsWith('62')) return '0' + nomor.slice(2);
+    return nomor;
+  }
+
+  function updateNomorInput() {
+    const input = document.getElementById('nomorInput');
+    if (!input) return;
+
+    const current = input.value.trim();
+    const normalized = normalizeNomor(current);
+
+    if (current !== normalized) {
+      input.value = normalized;
+    }
+  }
+
+  // Normalisasi saat halaman dimuat
+  window.addEventListener('DOMContentLoaded', updateNomorInput);
+
+  // Normalisasi saat field berubah diam-diam (autofill atau input dari kontak)
+  const observer = new MutationObserver(updateNomorInput);
+  const config = { attributes: true, childList: true, subtree: true };
+
+  window.addEventListener('load', function () {
+    const input = document.getElementById('nomorInput');
+    if (input) {
+      observer.observe(input, config);
+    }
+
+    // Sebagai tambahan keamanan, cek setiap 1 detik
+    setInterval(updateNomorInput, 000);    
+  });
+  
+const favoritesKey = 'myFavoriteNumbers';
+
+let favorites = [];
+
+// Load favorites dari localStorage saat halaman ready
+function loadFavorites() {
+  const data = localStorage.getItem(favoritesKey);
+  favorites = data ? JSON.parse(data) : [];
+}
+
+function saveFavorites() {
+  localStorage.setItem(favoritesKey, JSON.stringify(favorites));
+}
+
+function toggleFavoritePopup() {
+  document.getElementById('favoritePopup').classList.toggle('hidden');
+}
+
+document.getElementById('favoriteForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const name = document.getElementById('favName').value.trim();
+  const number = document.getElementById('favNumber').value.trim();
+  if (name && number) {
+    favorites.push({ name, number });
+    saveFavorites();          // Simpan ke localStorage
+    renderFavorites();
+    this.reset();
+  }
+});
+
+let editIndex = null;
+
+function renderFavorites() {
+  const list = document.getElementById('favoriteList');
+  list.innerHTML = '';
+
+  if (favorites.length === 0) {
+    const emptyMessage = document.createElement('div');
+    emptyMessage.className = 'flex flex-col items-center text-gray-500 py-4';
+    emptyMessage.innerHTML = `
+      <i class="fas fa-folder-open text-4xl mb-2"></i>
+      <p>Tidak ada nomor favorit disimpan.</p>
+    `;
+    list.appendChild(emptyMessage);
+    return;
+  }
+
+  favorites.forEach((fav, index) => {
+    const li = document.createElement('li');
+    li.className = 'flex justify-between items-center bg-gray-100 p-2 rounded';
+
+    li.innerHTML = `
+      <div>
+        <p class="font-semibold">${fav.name}</p>
+        <p class="text-sm text-gray-600">${fav.number}</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="removeFavorite(${index})" class="bg-red-500 hover:bg-red-700 text-white p-1 px-2 rounded" title="Hapus Favorit">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+        <button onclick="editFavorite(${index})" class="bg-yellow-400 hover:bg-yellow-500 text-white p-1 px-2 rounded" title="Edit Favorit">
+          <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button onclick="selectFavorite('${fav.number}')" class="bg-[#2097F3] hover:bg-blue-700 text-white p-1 px-2 rounded" title="Pilih Favorit">
+          <i class="fas fa-check"></i>
+        </button>
+      </div>
+    `;
+    list.appendChild(li);
+  });
+}
+
+function editFavorite(index) {
+  editIndex = index;
+  const fav = favorites[index];
+  document.getElementById('editFavName').value = fav.name;
+  document.getElementById('editFavNumber').value = fav.number;
+
+  // Tampilkan form edit dan sembunyikan form tambah
+  document.getElementById('editFavoriteForm').classList.remove('hidden');
+  document.getElementById('favoriteForm').classList.add('hidden');
+}
+
+document.getElementById('editFavoriteForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const name = document.getElementById('editFavName').value.trim();
+  const number = document.getElementById('editFavNumber').value.trim();
+  if (name && number && editIndex !== null) {
+    favorites[editIndex] = { name, number };
+    saveFavorites();
+    renderFavorites();
+    batalEditFavorit();
+  }
+});
+
+function batalEditFavorit() {
+  editIndex = null;
+  document.getElementById('editFavoriteForm').classList.add('hidden');
+  document.getElementById('favoriteForm').classList.remove('hidden');
+  document.getElementById('editFavoriteForm').reset?.();
+}
+
+function removeFavorite(index) {
+  favorites.splice(index, 1);
+  saveFavorites();   // Update localStorage
+  renderFavorites();
+}
+
+function selectFavorite(number) {
+  document.getElementById('nomorInput').value = number;
+  toggleFavoritePopup();
+}
+
+// Load dan render favorites saat halaman siap
+document.addEventListener('DOMContentLoaded', () => {
+  loadFavorites();
+  renderFavorites();
+});
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const inputA = document.getElementById('nomorInput');
+      const inputB = document.getElementById('favNumber');
+
+      const syncInputs = () => {
+        inputB.value = inputA.value;
+      };
+
+      ['input', 'change', 'keyup', 'paste'].forEach(eventType => {
+        inputA.addEventListener(eventType, syncInputs);
+      });
+    });
+</script>
+
+</body>
+</html>
